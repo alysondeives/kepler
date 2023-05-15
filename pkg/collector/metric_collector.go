@@ -71,11 +71,15 @@ func NewCollector() *Collector {
 }
 
 func (c *Collector) Initialize() error {
-	m, err := attacher.AttachBPFAssets()
-	if err != nil {
-		return fmt.Errorf("failed to attach bpf assets: %v", err)
+	if config.EnableEBPF {
+		m, err := attacher.AttachBPFAssets()
+		if err != nil {
+			return fmt.Errorf("failed to attach bpf assets: %v", err)
+		}
+		c.bpfHCMeter = m
+	} else {
+		attacher.HardwareCountersEnabled = false
 	}
-	c.bpfHCMeter = m
 
 	pods, err := cgroup.Init()
 	if err != nil && !config.EnableProcessMetrics {

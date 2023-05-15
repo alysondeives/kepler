@@ -64,6 +64,7 @@ var (
 	KernelVersion = float32(0)
 
 	KeplerNamespace              = getConfig("KEPLER_NAMESPACE", defaultNamespace)
+	EnableEBPF                   = getBoolConfig("ENABLE_EBPF", true)
 	EnabledEBPFCgroupID          = getBoolConfig("ENABLE_EBPF_CGROUPID", true)
 	EnabledGPU                   = getBoolConfig("ENABLE_GPU", false)
 	EnableProcessMetrics         = getBoolConfig("ENABLE_PROCESS_METRICS", false)
@@ -110,6 +111,7 @@ var (
 
 func logBoolConfigs() {
 	if klog.V(5).Enabled() {
+		klog.V(5).Infof("ENABLE_EBPF: %t", EnableEBPF)
 		klog.V(5).Infof("ENABLE_EBPF_CGROUPID: %t", EnabledEBPFCgroupID)
 		klog.V(5).Infof("ENABLE_GPU: %t", EnabledGPU)
 		klog.V(5).Infof("ENABLE_PROCESS_METRICS: %t", EnableProcessMetrics)
